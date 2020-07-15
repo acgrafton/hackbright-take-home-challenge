@@ -1,23 +1,13 @@
-CANVAS = [["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""],
-         ["","","","","","","","","",""]]
-
-
 class Canvas (object):
     """A Canvas Object"""
 
-    def __init__(self, col, row):
+    def __init__(self, length, width):
+        """Initiate a canvas based on the length and width provided. The unit of length and width is 1 character of a string."""
 
         self.length = length
         self.width = width
-        self.matrix = [["" for char in range(self.length)] for row in range(self.width)]
+        self.matrix = [[" " for char in range(self.length)] for row in range(self.width)]
+        self.shapes = []
 
     def __repr__(self):
         """Debugger-friendly representation of canvas"""
@@ -27,27 +17,50 @@ class Canvas (object):
     def add(self, shape):
         """Add a shape to the canvas"""
 
-        curr_row = shape.start_x
-        curr_col = shape.start_y
+        self.shapes.append(shape)
 
-        while curr_row < shape.end_x:
+    def clear(self):
+        """Remove all shapes from canvas"""
+
+        self.shapes = []
+
+    def draw(self, shape):
+        """Draw a shape onto the canvas"""
+
+        #Define starting point of the shape - set to (0,0) if starting point is off-canvas
+        curr_row = shape.start_y if shape.start_y >=0 else 0
+        curr_col = shape.start_x if shape.start_x >=0 else 0
+
+        #Loop through each row and column and fill in the shape into the matrix
+        while curr_row <= shape.end_y and curr_row < self.width:
             
-            while curr_col < shape.end_y:
+            while curr_col <= shape.end_x and curr_col < self.length:
 
                 self.matrix[curr_row][curr_col] = shape.fill_char
 
                 curr_col += 1
             
             curr_row += 1
-            curr_col = shape.start_y
+            curr_col = shape.start_x if shape.start_x >=0 else 0
+
 
     def render(self):
         """Print the canvas and shapes to standard output"""
 
-        print(self.matrix)
+        #Clear canvas
+        for i, row in enumerate(self.matrix):
+            for j, point in enumerate(row): 
+                self.matrix[i][j] = " " if point != " " else point
+
+        #Draw shapes
+        for shape in self.shapes:
+            self.draw(shape)
+
+        #Print to standard output
+        for row in self.matrix:
+            print("".join(row))
 
         
-
 class Rectangle (object):
     """A rectangle object"""
 
@@ -63,7 +76,7 @@ class Rectangle (object):
     def __repr__(self):
         """Debugger-friendly representation of rectangle"""
 
-        return f'<Rectangle start {(self.start_x, self.start_y)}, end {(self.end_x, self.end_y)} fill {self.fill_char}'
+        return f'<Rectangle start={(self.start_x, self.start_y)}, end={(self.end_x, self.end_y)} fill=\'{self.fill_char}\'>'
 
     def change_fill(self, char):
         """Change the character used to fill the Rectangle"""
@@ -83,7 +96,5 @@ class Rectangle (object):
 
         else:
             print('Invalid move')
-
-
 
     

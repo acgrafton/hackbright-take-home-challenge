@@ -1,0 +1,120 @@
+Importing file:
+    >>> from asciii_graphics import Canvas, Rectangle
+
+Testing Create new canvas:
+    >>> canvas = Canvas(length=10, width=10)
+
+Checking canvas:
+    >>> canvas
+    Canvas length 10 x width 10
+
+Testing Create a rectangle:
+    >>> rectangle1 = Rectangle(start_x=0, start_y=0, end_x=8, end_y=4, fill_char="*")
+
+Checking rectangle:
+    >>> rectangle1
+    <Rectangle start=(0, 0), end=(8, 4) fill='*'>
+
+Testing Add rectangle to canvas and render
+    >>> canvas.add(rectangle1)
+    >>> canvas.render()
+    ********* 
+    ********* 
+    ********* 
+    ********* 
+    ********* 
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+
+Testing Change fill:
+    >>> rectangle1.change_fill('&')
+    >>> rectangle1
+    <Rectangle start=(0, 0), end=(8, 4) fill='&'>
+    >>> canvas.render()
+    &&&&&&&&& 
+    &&&&&&&&& 
+    &&&&&&&&& 
+    &&&&&&&&& 
+    &&&&&&&&& 
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>      
+            
+
+Testing Move along x axis
+    >>> rectangle1.translate('x', 2)
+    >>> canvas.render()
+      &&&&&&&&
+      &&&&&&&&
+      &&&&&&&&
+      &&&&&&&&
+      &&&&&&&&
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>      
+
+Testing Overlap
+    >>> rectangle2 = Rectangle(start_x=3, start_y=2, end_x=10, end_y=8, fill_char="^")
+    >>> canvas.add(rectangle2)
+    >>> canvas.render()
+      &&&&&&&&
+      &&&&&&&&
+      &^^^^^^^
+      &^^^^^^^
+      &^^^^^^^
+       ^^^^^^^
+       ^^^^^^^
+       ^^^^^^^
+       ^^^^^^^
+    <BLANKLINE>
+          
+Testing Clear
+    >>> canvas.clear()
+    >>> canvas.render()
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+            
+Testing a Rectangle out of bounds
+    >>> rectangle3 = Rectangle(start_x=-1, start_y=-2, end_x=3, end_y=3, fill_char="#")
+    >>> canvas.add(rectangle3)
+    >>> canvas.render()
+    ####      
+    ####      
+    ####      
+    ####      
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>
+    <BLANKLINE>        
+            
+                   
+Testing moving along y axis
+    >>> rectangle3.translate('y',5)
+    >>> canvas.render()
+    <BLANKLINE>        
+    <BLANKLINE>        
+    <BLANKLINE>        
+    ####      
+    ####      
+    ####      
+    ####      
+    ####      
+    ####      
+    <BLANKLINE>        
